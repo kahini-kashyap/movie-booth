@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Booth</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0px;
+        }
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: rgb(31, 36, 75);
+            color: white;
+        }
+
+        .head {
+            text-align: center;
+        }
+
+        .main {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin-top: 50px;
+        }
+
+        .btns {
+            border: none;
+            background-color: rgb(43, 161, 43);
+            color: white;
+            width: 80px;
+            height: 70px;
+            font-size: 40px;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        .right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .upperdiv {
+            background-color: white;
+            color: rgb(31, 36, 75);
+            height: 15vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        input {
+            border: none;
+            font-family: 'Nunito Sans', sans-serif;
+            outline: none;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        #submit {
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: rgb(43, 161, 43);
+            font-size: 25px;
+            font-family: 'Nunito Sans', sans-serif;
+            cursor: pointer;
+        }
+
+        #submit:hover {
+            border: solid 2px rgb(43, 161, 43);
+            background-color: transparent;
+            color: rgb(43, 161, 43);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="upperdiv">
+        <h1 class="head">Movie Booth</h1>
+        <h2 class="head">Book your movie tickets here!</h2>
+    </div>
+    <div class="main">
+        <div class="left">
+            <div>
+                <button id="ticket1" class="btns">1</button>
+                <button id="ticket2" class="btns">2</button>
+                <button id="ticket3" class="btns">3</button>
+                <button id="ticket4" class="btns">4</button>
+                <button id="ticket5" class="btns">5</button>
+            </div><br><br>
+            <div>
+                <button id="ticket6" class="btns">6</button>
+                <button id="ticket7" class="btns">7</button>
+                <button id="ticket8" class="btns">8</button>
+                <button id="ticket9" class="btns">9</button>
+                <button id="ticket10" class="btns">10</button>
+            </div>
+        </div>
+        <div class="right">
+            <h2>Form</h2><br>
+            <h3>First Name:</h3>
+            <input type="text" id="fname"><br>
+            <h3>Last Name:</h3>
+            <input type="text" id="lname"><br>
+            <h3>Email ID:</h3>
+            <input type="email" id="email"><br>
+            <h3>Book ticket(s) for seat number(s)</h3>
+            <input type="text" id="tickets" placeholder="Eg. 1,5,6 or 8"><br>
+            <button onclick="submit()" id="submit">Submit</button>
+        </div>
+    </div>
+    </div>
+    <script>
+        function submit() {
+            let fname = document.getElementById("fname").value;
+            let lname = document.getElementById("lname").value;
+            let email = document.getElementById("email").value;
+            let tickets = document.getElementById("tickets").value;
+            fetch("/data", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ fname, lname, email, tickets }) }).then(function (res) {
+                return res.json();
+            }).then(function (res2) {
+                alert(res2.message);
+                window.location.href = "/";
+            })
+        }
+
+        fetch("/live").then((res) => {
+            return res.json()
+        }).then((res2) => {
+            for(let i = 1; i<=10; i++){
+                if(res2.ticket[i] == 1){
+                    document.getElementById("ticket" + i).style.backgroundColor="red";
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
